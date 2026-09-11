@@ -7,7 +7,7 @@ import { CreateRecipeDto } from './dto/CreateRecipeDto';
 import { UpdateRecipeDto } from './dto/UpdateRecipeDto';
 import { ParseIntPipe } from '@nestjs/common';
 import { AdminGuard } from '../common/guards/admin.guard';
-import { ApiOperation, ApiParam, ApiQuery, ApiResponse, ApiTags } from '@nestjs/swagger';
+import { ApiHeader, ApiOperation, ApiParam, ApiQuery, ApiResponse, ApiTags } from '@nestjs/swagger';
 
 @ApiTags('recipe')
 @UseGuards(AdminGuard)
@@ -21,7 +21,7 @@ export class RecipeController {
     @ApiQuery({ name: 'limit', required: false, type: Number })
     @ApiQuery({ name: 'title', required: false, type: String })
     @ApiQuery({ name: 'difficulty', required: false, type: String, enum: ['easy', 'medium', 'hard'] })
-    @ApiQuery({ name: 'X-API-Key', required: true, type: String, description: 'X-API-Key' })
+    @ApiHeader({ name: 'X-API-Key', required: true, description: 'X-API-Key' })
     @ApiResponse({ status: 200, description: 'Recettes récupérées avec succès' })
     @ApiResponse({ status: 400, description: 'Mauvaise requête' })
     @ApiResponse({ status: 401, description: 'Non autorisé' })
@@ -35,7 +35,7 @@ export class RecipeController {
     @HttpCode(200)
     @ApiOperation({ summary: 'Avoir une recette par ID' })
     @ApiParam({ name: 'id', required: true, type: Number })
-    @ApiQuery({ name: 'X-API-Key', required: true, type: String, description: 'X-API-Key' })
+    @ApiHeader({ name: 'X-API-Key', required: true, description: 'X-API-Key' })
     @ApiResponse({ status: 200, description: 'Recette récupérée avec succès' })
     @ApiResponse({ status: 400, description: 'Mauvaise requête' })
     @ApiResponse({ status: 401, description: 'Non autorisé' })
@@ -50,7 +50,7 @@ export class RecipeController {
     @Admin()
     @HttpCode(201)
     @ApiOperation({ summary: 'Créer une nouvelle recette' })
-    @ApiQuery({ name: 'X-API-Key', required: true, type: String, description: 'X-API-Key' })
+    @ApiHeader({ name: 'X-API-Key', required: true, description: 'X-API-Key' })
     @ApiResponse({ status: 201, description: 'Recette créée avec succès' })
     @ApiResponse({ status: 400, description: 'Mauvaise requête' })
     @ApiResponse({ status: 401, description: 'Non autorisé' })
@@ -66,7 +66,7 @@ export class RecipeController {
     @HttpCode(200)
     @ApiOperation({ summary: 'Mettre à jour une recette par ID' })
     @ApiParam({ name: 'id', required: true, type: Number })
-    @ApiQuery({ name: 'X-API-Key', required: true, type: String, description: 'X-API-Key' })
+    @ApiHeader({ name: 'X-API-Key', required: true, description: 'X-API-Key' })
     @ApiResponse({ status: 200, description: 'Recette mise à jour avec succès' })
     @ApiResponse({ status: 400, description: 'Mauvaise requête' })
     @ApiResponse({ status: 401, description: 'Non autorisé' })
@@ -83,7 +83,7 @@ export class RecipeController {
     @HttpCode(204)
     @ApiOperation({ summary: 'Supprimer une recette par ID' })
     @ApiParam({ name: 'id', required: true, type: Number })
-    @ApiQuery({ name: 'X-API-Key', required: true, type: String, description: 'X-API-Key' })
+    @ApiHeader({ name: 'X-API-Key', required: true, description: 'X-API-Key' })
     @ApiResponse({ status: 204, description: 'Recette supprimée avec succès' })
     @ApiResponse({ status: 400, description: 'Mauvaise requête' })
     @ApiResponse({ status: 401, description: 'Non autorisé' })
