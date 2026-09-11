@@ -31,15 +31,6 @@ Les routes `POST`, `PATCH` et `DELETE` demandent en plus un rôle admin. Les cl�
 | PATCH | `/api/recipe/:id` | Modifie partiellement une recette |
 | DELETE | `/api/recipe/:id` | Supprime une recette |
 
-### Query params de `GET /api/recipe`
-
-| Paramètre | Description |
-|---|---|
-| `page` | Numéro de page (défaut : 1) |
-| `limit` | Résultats par page (défaut : 10) |
-| `title` | Filtre par titre (recherche partielle, insensible à la casse) |
-| `difficulty` | Filtre par difficulté (`easy`, `medium`, `hard`) |
-
 ### Body de `POST /api/recipe` (et `PATCH`, tous les champs en optionnel)
 
 ```json
