@@ -1,19 +1,58 @@
-# RecipeAPI — point de départ
+# RecipeAPI
 
-Projet de départ pour l'épreuve. Déjà en place :
-- Scaffold NestJS 11 + configuration (`prefix /api`, CORS, `ValidationPipe`, Swagger monté sur `/api/docs`)
-- `StorageService` (lecture/écriture JSON, module `@Global()`)
-- Données de seed : `src/data/recipes.json` (20 recettes), `src/data/api-keys.json` (clés valides)
+API REST pour gérer un catalogue de recettes de cuisine, faite avec NestJS. Toutes les routes sont protégées par clé API, et les actions d'écriture (création, modification, suppression) demandent en plus un rôle admin.
 
 ## Installation
 
 ```bash
 npm install
-npm run start:dev
+npm run dev
 ```
 
-L'API répond sur `http://localhost:3000/api`.
+L'API répond sur `http://localhost:3000/api`. La doc Swagger est sur `http://localhost:3000/api/docs`.
 
-## Ce qu'il reste à construire
+## Authentification
 
-Voir le sujet de l'épreuve fourni séparément.
+Chaque requête doit envoyer un header `X-API-Key`, Sans Key on a accès à rien dutout.
+
+- Header absent → `401 Unauthorized`
+- Clé invalide → `403 Forbidden`
+- Clé valide → accès aux routes de lecture (`GET`)
+
+Les routes `POST`, `PATCH` et `DELETE` demandent en plus un rôle admin. Les clés dans `src/data/api-keys.json` ont toutes ce rôle, donc accès complet à l'API. En Revanche si on se register on peut simplement `GET`
+
+## Endpoints
+
+| Méthode | Route | Description |
+|---|---|---|
+| GET | `/api/recipe` | Liste paginée des recettes |
+| GET | `/api/recipe/:id` | Détail d'une recette |
+| POST | `/api/recipe` | Crée une recette |
+| PATCH | `/api/recipe/:id` | Modifie partiellement une recette |
+| DELETE | `/api/recipe/:id` | Supprime une recette |
+
+### Query params de `GET /api/recipe`
+
+| Paramètre | Description |
+|---|---|
+| `page` | Numéro de page (défaut : 1) |
+| `limit` | Résultats par page (défaut : 10) |
+| `title` | Filtre par titre (recherche partielle, insensible à la casse) |
+| `difficulty` | Filtre par difficulté (`easy`, `medium`, `hard`) |
+
+### Body de `POST /api/recipe` (et `PATCH`, tous les champs en optionnel)
+
+```json
+{
+  "title": "Tarte aux pommes",
+  "description": "Une tarte aux pommes traditionnelle avec une pâte croustillante.",
+  "ingredients": ["pâte brisée", "pommes", "sucre", "cannelle", "beurre"],
+  "difficulty": "medium",
+  "prepTimeMinutes": 45,
+  "servings": 6
+}
+```
+
+## Documentation Swagger
+
+Toutes les routes, les DTOs et les codes de retour possibles sont documentés sur `/api/docs`.
